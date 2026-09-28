@@ -1,0 +1,38 @@
+[
+  {
+    "name": "SCANFI",
+    "summary_en": "Canada-wide 30 m maps of forest land cover, canopy height, crown closure, aboveground biomass, and tree species composition.",
+    "summary_fr": "Cartes nationales à 30 m de l'occupation du sol forestier, hauteur du couvert, fermeture du couvert, biomasse aérienne et composition en essences, à l'échelle du Canada.",
+    "publication_url": "https://doi.org/10.1139/cjfr-2023-0118",
+    "gee_demo_url": "https://gcpm041u-lemur.projects.earthengine.app/view/fractionallandcover",
+    "github_url": "",
+    "data_url": "https://open.canada.ca/data/en/dataset/07653869-f303-46c2-a04e-9ab479b73cbf",
+    "current_version": "v2",
+    "next_version_eta_en": "v3 — TBD",
+    "next_version_eta_fr": "v3 — à déterminer"
+  },
+  {
+    "name": "CanLaD",
+    "summary_en": "Annual national time series of forest disturbances — wildfire, harvest, insect pests, and windthrow — 1985–2025.",
+    "summary_fr": "Série temporelle nationale annuelle des perturbations forestières — feux, coupes, insectes ravageurs et chablis — 1985–2025.",
+    "publication_url": "https://doi.org/10.1038/s41597-025-06269-x",
+    "gee_demo_url": "https://geot-230114.projects.earthengine.app/view/pestmaptempcnn",
+    "github_url": "https://github.com/NRCan/CanLaD",
+    "data_url": "https://open.canada.ca/data/en/dataset/902801fd-4d9d-4df4-9e95-319e429545cc",
+    "current_version": "1985–2025",
+    "next_version_eta_en": "TBD",
+    "next_version_eta_fr": "à déterminer"
+  },
+  {
+    "name": "CanLaBS",
+    "summary_en": "A Canada-wide Landsat-based 30 m resolution product of burn severity since 1985.",
+    "summary_fr": "Un produit national à 30 m, basé sur Landsat, de la sévérité des feux à l'échelle du Canada depuis 1985.",
+    "publication_url": "https://cdnsciencepub.com/doi/10.1139/cjfr-2020-0353",
+    "gee_demo_url": "",
+    "github_url": "",
+    "data_url": "https://open.canada.ca/data/en/dataset/2af751e7-79f9-4da8-9b45-14688818dca3",
+    "current_version": "v2",
+    "next_version_eta_en": "v3 — TBD",
+    "next_version_eta_fr": "v3 — à déterminer"
+  }
+]

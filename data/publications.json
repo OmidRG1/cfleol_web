@@ -1,0 +1,26 @@
+[
+  {
+    "year": "2026",
+    "journal": "Remote Sensing of Environment",
+    "title": "Windthrow mapping in boreal forests using a spatio-temporal deep learning approach and Sentinel-2 imagery",
+    "authors": "Reisi Gahrouei O., Guindon L., Perbet P., Correia D.L.P., Côté J.-F., Béland M.",
+    "url": "https://doi.org/10.1016/j.rse.2026.115270",
+    "doi_label": "DOI: 10.1016/j.rse.2026.115270"
+  },
+  {
+    "year": "2025",
+    "journal": "Scientific Data · Nature",
+    "title": "Historical insect disturbance maps from 1985 onwards for Canadian forests derived using earth observation data",
+    "authors": "Perbet P., Guindon L., Correia D.L.P., Reisi Gahrouei O., Côté J.-F., Béland M.",
+    "url": "https://doi.org/10.1038/s41597-025-06269-x",
+    "doi_label": "DOI: 10.1038/s41597-025-06269-x"
+  },
+  {
+    "year": "2024",
+    "journal": "Canadian Journal of Forest Research",
+    "title": "A new approach for Spatializing the Canadian National Forest Inventory (SCANFI) using Landsat dense time series",
+    "authors": "Guindon L., Manka F., Correia D.L.P., Villemaire P., Smiley B., Bernier P. et al.",
+    "url": "https://doi.org/10.1139/cjfr-2023-0118",
+    "doi_label": "DOI: 10.1139/cjfr-2023-0118"
+  }
+]

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CFLEOL – Canadian Forest Landscape Earth Observation Lab</title>
+  <meta name="description" content="Canadian Forest Landscape Earth Observation Lab (CFLEOL) — national-scale forest, disturbance and land-cover mapping from Landsat and Sentinel-2, based at the Laurentian Forestry Centre, NRCan.">
+  <meta name="keywords" content="CFLEOL, Canadian forest, earth observation, remote sensing, Landsat, Sentinel-2, SCANFI, CanLaD, NFI, forest disturbance, Natural Resources Canada">
+  <meta name="author" content="Canadian Forest Landscape Earth Observation Lab">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://omidrg1.github.io/cfleol_web/">
+  <meta property="og:title" content="CFLEOL — Canadian Forest Landscape Earth Observation Lab">
+  <meta property="og:description" content="National earth observation products for Canada's forests: SCANFI (2020) and CanLaD (1985–2024).">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://omidrg1.github.io/cfleol_web/">
+  <meta property="og:image" content="https://omidrg1.github.io/cfleol_web/preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%231a3a2a'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Georgia,serif' font-size='34' font-weight='700' fill='%23c9a84c'%3EC%3C/text%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+  <style>
+    :root {
+      --green-deep:#1a3a2a; --green-mid:#2d5c3f; --green-light:#4a8c5c;
+      --green-pale:#a8c9a0; --earth:#8b6914; --earth-light:#c9a84c;
+      --cream:#f5f0e8; --white:#fdfcf9;
+      --text-dark:#1a1a1a; --text-mid:#3a3a3a; --text-light:#6a6a6a;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text-dark);overflow-x:hidden;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:64px;background:rgba(26,58,42,0.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(201,168,76,0.2);}
+    .nav-logo{font-family:'DM Mono',monospace;font-size:1rem;font-weight:500;color:var(--earth-light);letter-spacing:.12em;text-decoration:none;}
+    .nav-links{display:flex;gap:2rem;list-style:none;}
+    .nav-links a{color:rgba(245,240,232,.75);text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;transition:color .2s;}
+    .nav-links a:hover{color:var(--earth-light);}
+    .lang-toggle{font-family:'DM Mono',monospace;font-size:.78rem;color:var(--earth-light);background:transparent;border:1px solid rgba(201,168,76,.4);padding:.3rem .75rem;border-radius:3px;cursor:pointer;letter-spacing:.08em;transition:background .2s;}
+    .lang-toggle:hover{background:rgba(201,168,76,.1);}
+
+    /* HERO */
+    .hero{background-color:var(--green-deep);background-image:linear-gradient(rgba(15,35,25,.82),rgba(15,35,25,.88)),url('assets/hero-bg.jpg');background-size:cover;background-position:center 65%;padding:7.5rem 6rem 3.5rem;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(74,140,92,.15) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(201,168,76,.08) 0%,transparent 60%);pointer-events:none;}
+    .hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(168,201,160,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(168,201,160,.04) 1px,transparent 1px);background-size:60px 60px;}
+    .hero-inner{display:flex;justify-content:space-between;align-items:flex-start;gap:3rem;position:relative;z-index:1;}
+    .hero-main{flex:1;min-width:0;}
+    .hero-tag{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--earth-light);border:1px solid rgba(201,168,76,.35);padding:.4rem 1rem;border-radius:2px;margin-bottom:1.4rem;display:inline-block;opacity:0;animation:fadeUp .8s .2s forwards;}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.2vw,3rem);font-weight:700;line-height:1.15;color:var(--cream);max-width:640px;opacity:0;animation:fadeUp .8s .4s forwards;}
+    .hero h1 em{font-style:italic;color:var(--earth-light);}
+    .hero-sub{font-size:.95rem;color:rgba(245,240,232,.65);max-width:520px;line-height:1.65;margin-top:1.2rem;font-weight:300;opacity:0;animation:fadeUp .8s .6s forwards;}
+    .hero-sub-fr{font-style:italic;font-size:.85rem;color:rgba(245,240,232,.45);margin-top:.5rem;opacity:0;animation:fadeUp .8s .7s forwards;}
+    /* HERO NEWS PANEL */
+    .hero-news{width:300px;flex-shrink:0;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.25);border-radius:8px;padding:1.3rem 1.4rem;opacity:0;animation:fadeUp .8s 1s forwards;}
+    .hero-news-title{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--earth-light);margin-bottom:1rem;display:flex;align-items:center;gap:.45rem;}
+    .hero-news-title .dot{width:6px;height:6px;border-radius:50%;background:var(--earth-light);display:inline-block;animation:pulse 2s infinite;}
+    .hero-news-list{display:flex;flex-direction:column;gap:.9rem;}
+    .news-item{border-left:2px solid rgba(201,168,76,.4);padding-left:.7rem;}
+    .news-date{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--earth-light);letter-spacing:.06em;}
+    .news-text{font-size:.78rem;color:rgba(245,240,232,.78);line-height:1.5;margin-top:.15rem;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+    /* SHARED */
+    section{padding:6rem 6rem;}
+    .section-tag{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--earth);margin-bottom:1rem;}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:700;line-height:1.2;color:var(--green-deep);margin-bottom:.5rem;}
+    .section-title-fr{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:var(--text-light);margin-bottom:2.5rem;}
+    .divider{width:48px;height:3px;background:var(--earth-light);margin-bottom:2.5rem;}
+
+    /* ABOUT */
+    #about{background:var(--white);}
+    .about-text p{font-size:1rem;line-height:1.85;color:var(--text-mid);margin-bottom:1.2rem;font-weight:300;}
+    .about-text p strong{color:var(--green-deep);font-weight:600;}
+
+    /* PROJECTS & PRODUCTS TABLE */
+    #products{background:var(--cream);}
+    .table-wrap{overflow-x:auto;margin-top:1rem;border-radius:8px;border:1px solid rgba(26,58,42,.1);background:var(--white);}
+    table.projects-table{width:100%;border-collapse:collapse;font-size:.83rem;min-width:920px;}
+    table.projects-table th{background:var(--green-deep);color:var(--cream);text-align:left;padding:.85rem 1rem;font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;}
+    table.projects-table td{padding:.9rem 1rem;border-bottom:1px solid rgba(26,58,42,.08);vertical-align:top;color:var(--text-mid);}
+    table.projects-table tr:last-child td{border-bottom:none;}
+    table.projects-table tbody tr:hover td{background:var(--cream);}
+    table.projects-table td a{color:var(--green-mid);text-decoration:none;font-family:'DM Mono',monospace;font-size:.76rem;border-bottom:1px solid rgba(45,92,63,.3);white-space:nowrap;}
+    table.projects-table td a:hover{color:var(--earth);}
+    table.projects-table td.muted{color:var(--text-light);}
+    .ver-badge{font-family:'DM Mono',monospace;font-size:.7rem;padding:.15rem .5rem;border-radius:3px;background:rgba(74,140,92,.12);color:var(--green-mid);white-space:nowrap;}
+
+    /* EXPLORE DATA */
+    #explore{background:var(--cream);}
+    .map-panel{margin-top:1rem;margin-bottom:2.5rem;border-radius:8px;overflow:hidden;border:1px solid rgba(26,58,42,.1);background:var(--white);}
+    .map-panel-head{padding:1.2rem 1.5rem;border-bottom:1px solid rgba(26,58,42,.08);}
+    .map-panel-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--green-deep);margin-bottom:.2rem;}
+    .map-panel-desc{font-size:.82rem;color:var(--text-light);}
+    #canopy-map{height:480px;width:100%;background:var(--green-deep);}
+    .map-legend{display:flex;align-items:center;gap:.6rem;padding:.9rem 1.5rem;background:var(--white);border-top:1px solid rgba(26,58,42,.08);flex-wrap:wrap;}
+    .map-legend-label{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);}
+    .map-legend-bar{flex:1;min-width:160px;max-width:320px;height:10px;border-radius:5px;background:linear-gradient(90deg,#f5f0e8,#a8c9a0,#4a8c5c,#2d5c3f,#1a3a2a);}
+
+    /* TEAM */
+    #team{background:var(--cream);}
+    .team-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;}
+    .team-card{background:var(--white);border-radius:8px;border:1px solid rgba(26,58,42,.06);padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;transition:transform .2s,box-shadow .2s;}
+    .team-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,58,42,.08);}
+    .team-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--green-mid),var(--earth-light));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#fff;flex-shrink:0;}
+    .team-name{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--green-deep);margin-bottom:.2rem;}
+    .team-role{font-size:.78rem;color:var(--text-light);line-height:1.5;margin-bottom:.3rem;}
+    .team-org{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--earth);letter-spacing:.06em;}
+
+    /* PUBLICATIONS & COLLABORATIONS */
+    #publications{background:var(--white);}
+    .sub-heading{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--green-deep);margin-bottom:1rem;}
+    .pub-list{display:flex;flex-direction:column;gap:1.2rem;}
+    .pub-item{display:grid;grid-template-columns:70px 1fr;gap:1.2rem;align-items:start;padding:1.3rem;border:1px solid rgba(26,58,42,.08);border-radius:8px;background:var(--cream);transition:border-color .2s;}
+    .pub-item:hover{border-color:var(--green-pale);}
+    .pub-year{font-family:'DM Mono',monospace;font-size:1.3rem;font-weight:500;color:var(--green-pale);text-align:center;}
+    .pub-journal{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--earth);margin-bottom:.3rem;}
+    .pub-title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--green-deep);line-height:1.4;margin-bottom:.3rem;}
+    .pub-authors{font-size:.8rem;color:var(--text-light);font-style:italic;margin-bottom:.4rem;}
+    .pub-link{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--green-mid);text-decoration:none;letter-spacing:.05em;border-bottom:1px solid rgba(45,92,63,.3);}
+    .pub-link:hover{color:var(--earth);}
+    .collab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+    .collab-card{background:var(--cream);border-radius:8px;border:1px solid rgba(26,58,42,.06);padding:1.3rem;}
+    .collab-name{font-family:'Playfair Display',serif;font-size:.92rem;font-weight:700;color:var(--green-deep);margin-bottom:.2rem;}
+    .collab-org{font-size:.78rem;color:var(--text-light);line-height:1.5;}
+    .collab-link{display:inline-block;margin-top:.4rem;font-family:'DM Mono',monospace;font-size:.68rem;color:var(--green-mid);text-decoration:none;border-bottom:1px solid rgba(45,92,63,.3);}
+    .collab-link:hover{color:var(--earth);}
+
+    /* PARTNERS */
+    #partners{background:var(--green-deep);}
+    #partners .section-tag{color:var(--earth-light);}
+    #partners .section-title{color:var(--cream);}
+    #partners .section-title-fr{color:rgba(245,240,232,.4);}
+    #partners .divider{background:var(--earth-light);}
+    .partner-card{background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:2.5rem;display:grid;grid-template-columns:80px 1fr;gap:2rem;align-items:start;max-width:800px;margin-top:1rem;}
+    .partner-icon{font-size:2.5rem;}
+    .partner-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--cream);margin-bottom:.2rem;}
+    .partner-name-fr{font-style:italic;font-size:.85rem;color:rgba(245,240,232,.4);margin-bottom:1rem;}
+    .partner-desc{font-size:.88rem;color:rgba(245,240,232,.6);line-height:1.7;margin-bottom:1.2rem;}
+    .partner-link{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--earth-light);text-decoration:none;letter-spacing:.06em;transition:color .2s;}
+    .partner-link:hover{color:var(--cream);}
+
+    /* CONTACT */
+    #contact{background:var(--white);}
+    .contact-text-block{margin-top:1rem;max-width:520px;}
+    .contact-text-block p{font-size:.95rem;color:var(--text-mid);line-height:1.8;margin-bottom:2rem;font-weight:300;}
+    .contact-detail{display:flex;flex-direction:column;gap:1rem;}
+    .contact-item{display:flex;align-items:flex-start;gap:1rem;}
+    .contact-icon{font-size:1rem;margin-top:.1rem;opacity:.5;}
+    .contact-info{font-size:.88rem;color:var(--text-light);line-height:1.6;}
+    .contact-info strong{color:var(--green-mid);display:block;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem;}
+
+    /* FOOTER */
+    footer{background:rgba(10,20,15,.95);padding:2rem 6rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(201,168,76,.1);}
+    .footer-logo{font-family:'DM Mono',monospace;font-size:.85rem;color:var(--earth-light);letter-spacing:.1em;}
+    .footer-text{font-size:.75rem;color:rgba(245,240,232,.3);text-align:center;}
+    .footer-affil{font-size:.75rem;color:rgba(245,240,232,.3);text-align:right;}
+
+    /* LANG */
+    .fr{display:none;}
+    body.lang-fr .fr{display:block;}
+    body.lang-fr .en{display:none;}
+
+    /* ANIMATIONS */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes scrollDrop{0%{opacity:0;transform:scaleY(0);transform-origin:top}50%{opacity:1;transform:scaleY(1)}100%{opacity:0;transform:scaleY(1)}}
+
+    /* RESPONSIVE */
+    @media(max-width:1024px){
+      section{padding:5rem 3rem;}
+      .hero{padding:7rem 3rem 3rem;}
+      .hero-inner{flex-direction:column;}
+      .hero-news{width:100%;}
+      .team-cards{grid-template-columns:1fr 1fr;}
+      .collab-grid{grid-template-columns:1fr 1fr;}
+      footer{padding:2rem 3rem;}
+    }
+    @media(max-width:768px){
+      nav{padding:0 1.5rem;}
+      .nav-links{display:none;}
+      section{padding:4rem 1.5rem;}
+      .hero{padding:6rem 1.5rem 2.5rem;}
+      .team-cards{grid-template-columns:1fr;}
+      .collab-grid{grid-template-columns:1fr;}
+      .pub-item{grid-template-columns:1fr;}
+      .partner-card{grid-template-columns:1fr;}
+      footer{flex-direction:column;gap:1rem;text-align:center;padding:2rem 1.5rem;}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">CFLEOL</a>
+  <ul class="nav-links">
+    <li><a href="#products"><span class="en">Products</span><span class="fr">Produits</span></a></li>
+    <li><a href="#about"><span class="en">About</span><span class="fr">À propos</span></a></li>
+    <li><a href="#explore"><span class="en">Explore</span><span class="fr">Explorer</span></a></li>
+    <li><a href="#team"><span class="en">Team</span><span class="fr">Équipe</span></a></li>
+    <li><a href="#publications"><span class="en">Publications</span><span class="fr">Publications</span></a></li>
+    <li><a href="#contact"><span class="en">Contact</span><span class="fr">Contact</span></a></li>
+  </ul>
+  <button class="lang-toggle" onclick="document.body.classList.toggle('lang-fr');this.textContent=document.body.classList.contains('lang-fr')?'EN':'FR'">FR</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-main">
+      <div class="hero-tag">Laurentian Forestry Centre · Natural Resources Canada</div>
+      <h1>Canadian Forest Landscape<br/><em>Earth Observation Lab</em></h1>
+      <p class="hero-sub en">Mapping Canada's forests, disturbances, and land cover at national scale using satellite earth observation.</p>
+      <p class="hero-sub fr">Cartographie des forêts, perturbations et occupation du sol à l'échelle nationale par observation de la Terre.</p>
+    </div>
+    <aside class="hero-news">
+      <div class="hero-news-title"><span class="dot"></span><span class="en">Latest Updates</span><span class="fr">Dernières nouvelles</span></div>
+      <div class="hero-news-list" id="hero-news-list">
+        <div class="news-item"><div class="news-date">—</div><div class="news-text">Loading news…</div></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- PROJECTS & PRODUCTS -->
+<section id="products">
+  <div class="section-tag"><span class="en">Projects &amp; Products</span><span class="fr">Projets et produits</span></div>
+  <h2 class="section-title en">Projects &amp; Products</h2>
+  <h2 class="section-title fr">Projets et produits</h2>
+  <div class="divider"></div>
+  <div class="table-wrap">
+    <table class="projects-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Summary</th>
+          <th>Publication</th>
+          <th>GEE Demo</th>
+          <th>GitHub</th>
+          <th>Data Access</th>
+          <th>Current Version</th>
+          <th>Next Version</th>
+        </tr>
+      </thead>
+      <tbody id="products-table-body">
+        <tr><td colspan="8" class="muted">Loading products…</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-tag"><span class="en">About</span><span class="fr">À propos</span></div>
+  <h2 class="section-title en">Who We Are</h2>
+  <h2 class="section-title fr">Qui sommes-nous</h2>
+  <div class="divider"></div>
+  <div class="about-text">
+    <p>The <strong>Canadian Forest Landscape Earth Observation Lab (CFLEOL)</strong> is a remote sensing research group based at the <strong>Laurentian Forestry Centre</strong>, Canadian Forest Service, Natural Resources Canada, in Québec City.</p>
+    <p>We develop and deliver <strong>national-scale earth observation data products</strong> for Canada's forested ecosystems — covering forest land cover, structural attributes, and stand-replacing disturbances including wildfire, harvest, insect outbreaks, and windthrow.</p>
+    <p class="en">Our work spans the full Canadian land surface — from dense boreal forests to open wetlands, bryoid areas, lichen fields, and rocky substrates — providing consistent, wall-to-wall national baselines for science, policy, and carbon reporting.</p>
+    <p class="fr">Le <strong>Laboratoire canadien d'observation de la Terre des paysages forestiers</strong> développe des produits de données d'observation de la Terre à l'échelle nationale pour les écosystèmes forestiers canadiens.</p>
+  </div>
+</section>
+
+<!-- EXPLORE DATA -->
+<section id="explore">
+  <div class="section-tag"><span class="en">Explore Data</span><span class="fr">Explorer les données</span></div>
+  <h2 class="section-title en">Interactive Viewers</h2>
+  <h2 class="section-title fr">Visualisateurs interactifs</h2>
+  <div class="divider"></div>
+
+  <div class="map-panel">
+    <div class="map-panel-head">
+      <div class="map-panel-title en">National Canopy Closure — SCANFI</div>
+      <div class="map-panel-title fr">Fermeture du couvert national — SCANFI</div>
+      <div class="map-panel-desc en">30 m canopy closure (%) across Canada's forested landmass. Drag to pan, scroll to zoom.</div>
+      <div class="map-panel-desc fr">Fermeture du couvert (%) à 30 m à travers le territoire forestier canadien. Glissez pour déplacer, faites défiler pour zoomer.</div>
+    </div>
+    <div id="canopy-map"></div>
+    <div class="map-legend">
+      <span class="map-legend-label">0%</span>
+      <span class="map-legend-bar"></span>
+      <span class="map-legend-label">100% <span class="en">canopy closure</span><span class="fr">fermeture du couvert</span></span>
+    </div>
+  </div>
+
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-tag"><span class="en">Team</span><span class="fr">Équipe</span></div>
+  <h2 class="section-title en">Lab Staff</h2>
+  <h2 class="section-title fr">Personnel du laboratoire</h2>
+  <div class="divider"></div>
+  <div class="team-cards">
+    <div class="team-card">
+      <div class="team-avatar">LG</div>
+      <div>
+        <div class="team-name">Luc Guindon</div>
+        <div class="team-role en">Research Scientist, Remote Sensing and Forest Ecology</div>
+        <div class="team-role fr">Chercheur scientifique, télédétection et écologie forestière</div>
+        <div class="team-org">Laurentian Forestry Centre · CFS · NRCan</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">PP</div>
+      <div>
+        <div class="team-name">Pauline Perbet</div>
+        <div class="team-role en">Senior Analyst in Remote Sensing and Forest Ecology</div>
+        <div class="team-role fr">Analyste principale en télédétection et écologie forestière</div>
+        <div class="team-org">Laurentian Forestry Centre · CFS · NRCan</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">PV</div>
+      <div>
+        <div class="team-name">Philippe Villemaire</div>
+        <div class="team-role en">Analyst, Geomatics and Remote Sensing</div>
+        <div class="team-role fr">Analyste, géomatique et télédétection</div>
+        <div class="team-org">Laurentian Forestry Centre · CFS · NRCan</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">FM</div>
+      <div>
+        <div class="team-name">Francis Manka</div>
+        <div class="team-role en">Data Analyst, Forest Research</div>
+        <div class="team-role fr">Analyste de données, recherche forestière</div>
+        <div class="team-org">Laurentian Forestry Centre · CFS · NRCan</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">OR</div>
+      <div>
+        <div class="team-name">Omid Reisi Gahrouei</div>
+        <div class="team-role en">Senior Remote Sensing and Forest Ecology Analyst</div>
+        <div class="team-role fr">Analyste principal en télédétection et écologie forestière</div>
+        <div class="team-org">Laurentian Forestry Centre · CFS · NRCan</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">DC</div>
+      <div>
+        <div class="team-name">David Correia</div>
+        <div class="team-role en">Senior Forest Specialist in Remote Sensing</div>
+        <div class="team-role fr">Spécialiste principal en forêt et télédétection</div>
+        <div class="team-org">Laurentian Forestry Centre · CFS · NRCan</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS & COLLABORATIONS -->
+<section id="publications">
+  <div class="section-tag"><span class="en">Publications &amp; Collaborations</span><span class="fr">Publications et collaborations</span></div>
+  <h2 class="section-title en">Publications &amp; Collaborations</h2>
+  <h2 class="section-title fr">Publications et collaborations</h2>
+  <div class="divider"></div>
+
+  <h3 class="sub-heading en">Recent Publications</h3>
+  <h3 class="sub-heading fr">Publications récentes</h3>
+  <div class="pub-list" id="publications-list">
+    <div class="pub-item"><div class="pub-year">—</div><div class="pub-title">Loading publications…</div></div>
+  </div>
+
+  <h3 class="sub-heading en" style="margin-top:3rem;">Collaborations</h3>
+  <h3 class="sub-heading fr" style="margin-top:3rem;">Collaborations</h3>
+  <div class="collab-grid" id="collaborations-list">
+    <div class="collab-card">Loading…</div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section id="partners">
+  <div class="section-tag"><span class="en">Partners</span><span class="fr">Partenaires</span></div>
+  <h2 class="section-title en">Partners</h2>
+  <h2 class="section-title fr">Partenaires</h2>
+  <div class="divider"></div>
+  <div class="partner-card">
+    <div class="partner-icon">🌲</div>
+    <div>
+      <div class="partner-name">National Forest Information System</div>
+      <div class="partner-name-fr">Système national d'information forestière (SNIF)</div>
+      <p class="partner-desc en">The NFIS is Canada's primary portal for national forest information, data products, and monitoring tools. CFLEOL contributes national earth observation products — disturbance maps and forest inventory — to the NFIS open data ecosystem.</p>
+      <p class="partner-desc fr">Le SNIF est le portail principal du Canada pour les informations forestières nationales. CFLEOL contribue des produits nationaux d'observation de la Terre — cartes de perturbations et inventaire forestier — à l'écosystème de données ouvertes du SNIF.</p>
+      <a class="partner-link" href="https://nfi.nfis.org/en/documentation" target="_blank">🌐 <span class="en">Visit NFIS Documentation →</span><span class="fr">Visiter la documentation du SNIF →</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-tag">Contact</div>
+  <h2 class="section-title en">Get in Touch</h2>
+  <h2 class="section-title fr">Nous contacter</h2>
+  <div class="divider"></div>
+  <div class="contact-text-block">
+      <p class="en">We welcome collaborations, data requests, and inquiries about our national forest earth observation products and research.</p>
+      <p class="fr">Nous accueillons les collaborations, demandes de données et questions sur nos produits nationaux d'observation de la Terre.</p>
+      <div class="contact-detail">
+        <div class="contact-item">
+          <span class="contact-icon">📍</span>
+          <div class="contact-info">
+            <strong><span class="en">Address</span><span class="fr">Adresse</span></strong>
+            Laurentian Forestry Centre · Centre de foresterie des Laurentides<br/>
+            1055 rue du P.E.P.S., P.O. Box 10380<br/>
+            Québec, QC G1V 4C7, Canada
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">✉️</span>
+          <div class="contact-info">
+            <strong><span class="en">Contact</span><span class="fr">Contact</span></strong>
+            Luc Guindon · <a href="mailto:luc.guindon@NRCan-RNCan.gc.ca">luc.guindon@NRCan-RNCan.gc.ca</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">🏛️</span>
+          <div class="contact-info">
+            <strong><span class="en">Affiliation</span><span class="fr">Affiliation</span></strong>
+            Natural Resources Canada · Ressources naturelles Canada<br/>
+            Canadian Forest Service · Service canadien des forêts
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">📦</span>
+          <div class="contact-info">
+            <strong><span class="en">Open Data</span><span class="fr">Données ouvertes</span></strong>
+            open.canada.ca/data
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<footer>
+  <div class="footer-text">Canadian Forest Landscape Earth Observation Lab<br/>Laboratoire canadien d'observation de la Terre des paysages forestiers</div>
+  <div class="footer-affil">Laurentian Forestry Centre<br/>Natural Resources Canada</div>
+</footer>
+
+<script>
+  // Latest Updates panel: edit data/news.json to add/change news items.
+  // Newest entry first; only the first 4 are shown.
+  async function loadNews(){
+    const list = document.getElementById('hero-news-list');
+    try{
+      const res = await fetch('data/news.json', {cache:'no-store'});
+      const items = await res.json();
+      list.innerHTML = items.slice(0, 4).map(n => `
+        <div class="news-item">
+          <div class="news-date">${n.date}</div>
+          <div class="news-text"><span class="en">${n.text_en}</span><span class="fr">${n.text_fr}</span></div>
+        </div>`).join('');
+    }catch(e){
+      list.innerHTML = '<div class="news-item"><div class="news-text">Could not load updates.</div></div>';
+      console.error('loadNews failed:', e);
+    }
+  }
+
+  // Projects & Products table: edit data/products.json to add/change a row.
+  function link(url, label){
+    return url ? `<a href="${url}" target="_blank" rel="noopener">${label} →</a>` : '<span class="muted">—</span>';
+  }
+  async function loadProducts(){
+    const tbody = document.getElementById('products-table-body');
+    try{
+      const res = await fetch('data/products.json', {cache:'no-store'});
+      const items = await res.json();
+      tbody.innerHTML = items.map(p => `
+        <tr>
+          <td><strong>${p.name}</strong></td>
+          <td><span class="en">${p.summary_en}</span><span class="fr">${p.summary_fr}</span></td>
+          <td>${link(p.publication_url, 'Paper')}</td>
+          <td>${link(p.gee_demo_url, 'Open')}</td>
+          <td>${link(p.github_url, 'Repo')}</td>
+          <td>${link(p.data_url, 'Download')}</td>
+          <td><span class="ver-badge">${p.current_version}</span></td>
+          <td class="muted"><span class="en">${p.next_version_eta_en}</span><span class="fr">${p.next_version_eta_fr}</span></td>
+        </tr>`).join('');
+    }catch(e){
+      tbody.innerHTML = '<tr><td colspan="8" class="muted">Could not load products.</td></tr>';
+      console.error('loadProducts failed:', e);
+    }
+  }
+
+  // Publications list: edit data/publications.json to add/change a paper.
+  async function loadPublications(){
+    const list = document.getElementById('publications-list');
+    try{
+      const res = await fetch('data/publications.json', {cache:'no-store'});
+      const items = await res.json();
+      list.innerHTML = items.map(p => `
+        <div class="pub-item">
+          <div class="pub-year">${p.year}</div>
+          <div>
+            <div class="pub-journal">${p.journal}</div>
+            <div class="pub-title">${p.title}</div>
+            <div class="pub-authors">${p.authors}</div>
+            <a href="${p.url}" class="pub-link" target="_blank" rel="noopener">${p.doi_label} →</a>
+          </div>
+        </div>`).join('');
+    }catch(e){
+      list.innerHTML = '<div class="pub-item"><div class="pub-title">Could not load publications.</div></div>';
+      console.error('loadPublications failed:', e);
+    }
+  }
+
+  // Collaborations list: edit data/collaborations.json to add/change an entry.
+  async function loadCollaborations(){
+    const grid = document.getElementById('collaborations-list');
+    try{
+      const res = await fetch('data/collaborations.json', {cache:'no-store'});
+      const items = await res.json();
+      grid.innerHTML = items.map(c => `
+        <div class="collab-card">
+          <div class="collab-name">${c.name}</div>
+          <div class="collab-org"><span class="en">${c.org_en}</span><span class="fr">${c.org_fr}</span></div>
+          ${c.url ? `<a href="${c.url}" class="collab-link" target="_blank" rel="noopener">Visit →</a>` : ''}
+        </div>`).join('');
+    }catch(e){
+      grid.innerHTML = '<div class="collab-card">Could not load collaborations.</div>';
+      console.error('loadCollaborations failed:', e);
+    }
+  }
+
+  loadNews();
+  loadProducts();
+  loadPublications();
+  loadCollaborations();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+  // Canopy closure map
+  const canopyBounds = [[35.8597, -153.1788], [75.1553, -29.4064]]; // [south,west],[north,east]
+  const canopyMap = L.map('canopy-map', {minZoom: 2, maxZoom: 8}).fitBounds(canopyBounds);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 20
+  }).addTo(canopyMap);
+  L.imageOverlay('assets/canopy_closure_overlay.png', canopyBounds, {opacity: 0.95}).addTo(canopyMap);
+</script>
+
+</body>
+</html>
