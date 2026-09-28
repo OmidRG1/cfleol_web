@@ -1,6 +1,14 @@
 [
   {
     "year": "2026",
+    "journal": "International Journal of Remote Sensing",
+    "title": "Mapping the extent and severity of tree mortality and defoliation caused by spruce budworm using Landsat time series",
+    "authors": "Zhou X., Guindon L., Perbet P., Reisi Gahrouei O., Côté J.-F., Waldron K., Kneeshaw D., Béland M.",
+    "url": "https://doi.org/10.1080/01431161.2026.2617734",
+    "doi_label": "DOI: 10.1080/01431161.2026.2617734"
+  },
+  {
+    "year": "2026",
     "journal": "Remote Sensing of Environment",
     "title": "Windthrow mapping in boreal forests using a spatio-temporal deep learning approach and Sentinel-2 imagery",
     "authors": "Reisi Gahrouei O., Guindon L., Perbet P., Correia D.L.P., Côté J.-F., Béland M.",

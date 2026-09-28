@@ -34,5 +34,17 @@
     "current_version": "v2",
     "next_version_eta_en": "v3 — TBD",
     "next_version_eta_fr": "v3 — à déterminer"
+  },
+  {
+    "name": "Pre-CanLaD",
+    "summary_en": "Canada-wide Landsat-based 30 m resolution product of disturbance detection prior to 1984.",
+    "summary_fr": "Produit national à 30 m, basé sur Landsat, de détection des perturbations survenues avant 1984, à l'échelle du Canada.",
+    "publication_url": "",
+    "gee_demo_url": "",
+    "github_url": "",
+    "data_url": "https://open.canada.ca/data/en/dataset/8d49698f-40f9-40da-b097-a3f4c90adf5a",
+    "current_version": "v1",
+    "next_version_eta_en": "TBD",
+    "next_version_eta_fr": "à déterminer"
   }
 ]
