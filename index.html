@@ -105,24 +105,18 @@
     .team-role{font-size:.78rem;color:var(--text-light);line-height:1.5;margin-bottom:.3rem;}
     .team-org{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--earth);letter-spacing:.06em;}
 
-    /* PUBLICATIONS & COLLABORATIONS */
+    /* PUBLICATIONS */
     #publications{background:var(--white);}
-    .sub-heading{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--green-deep);margin-bottom:1rem;}
-    .pub-list{display:flex;flex-direction:column;gap:1.2rem;}
-    .pub-item{display:grid;grid-template-columns:70px 1fr;gap:1.2rem;align-items:start;padding:1.3rem;border:1px solid rgba(26,58,42,.08);border-radius:8px;background:var(--cream);transition:border-color .2s;}
+    .pub-intro{font-size:.88rem;color:var(--text-mid);line-height:1.7;max-width:640px;margin:1rem 0 1.5rem;font-weight:300;}
+    .pub-list{display:flex;flex-direction:column;gap:.6rem;}
+    .pub-item{display:grid;grid-template-columns:48px 1fr;gap:.9rem;align-items:start;padding:.7rem .9rem;border:1px solid rgba(26,58,42,.08);border-radius:6px;background:var(--cream);transition:border-color .2s;}
     .pub-item:hover{border-color:var(--green-pale);}
-    .pub-year{font-family:'DM Mono',monospace;font-size:1.3rem;font-weight:500;color:var(--green-pale);text-align:center;}
-    .pub-journal{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--earth);margin-bottom:.3rem;}
-    .pub-title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--green-deep);line-height:1.4;margin-bottom:.3rem;}
-    .pub-authors{font-size:.8rem;color:var(--text-light);font-style:italic;margin-bottom:.4rem;}
-    .pub-link{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--green-mid);text-decoration:none;letter-spacing:.05em;border-bottom:1px solid rgba(45,92,63,.3);}
+    .pub-year{font-family:'DM Mono',monospace;font-size:.95rem;font-weight:500;color:var(--green-pale);text-align:center;}
+    .pub-journal{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--earth);margin-bottom:.15rem;}
+    .pub-title{font-family:'Playfair Display',serif;font-size:.85rem;font-weight:700;color:var(--green-deep);line-height:1.3;margin-bottom:.15rem;}
+    .pub-authors{font-size:.72rem;color:var(--text-light);font-style:italic;margin-bottom:.25rem;}
+    .pub-link{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--green-mid);text-decoration:none;letter-spacing:.05em;border-bottom:1px solid rgba(45,92,63,.3);}
     .pub-link:hover{color:var(--earth);}
-    .collab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
-    .collab-card{background:var(--cream);border-radius:8px;border:1px solid rgba(26,58,42,.06);padding:1.3rem;}
-    .collab-name{font-family:'Playfair Display',serif;font-size:.92rem;font-weight:700;color:var(--green-deep);margin-bottom:.2rem;}
-    .collab-org{font-size:.78rem;color:var(--text-light);line-height:1.5;}
-    .collab-link{display:inline-block;margin-top:.4rem;font-family:'DM Mono',monospace;font-size:.68rem;color:var(--green-mid);text-decoration:none;border-bottom:1px solid rgba(45,92,63,.3);}
-    .collab-link:hover{color:var(--earth);}
 
     /* PARTNERS */
     #partners{background:var(--green-deep);}
@@ -170,7 +164,6 @@
       .hero-inner{flex-direction:column;}
       .hero-news{width:100%;}
       .team-cards{grid-template-columns:1fr 1fr;}
-      .collab-grid{grid-template-columns:1fr 1fr;}
       footer{padding:2rem 3rem;}
     }
     @media(max-width:768px){
@@ -179,7 +172,6 @@
       section{padding:4rem 1.5rem;}
       .hero{padding:6rem 1.5rem 2.5rem;}
       .team-cards{grid-template-columns:1fr;}
-      .collab-grid{grid-template-columns:1fr;}
       .pub-item{grid-template-columns:1fr;}
       .partner-card{grid-template-columns:1fr;}
       footer{flex-direction:column;gap:1rem;text-align:center;padding:2rem 1.5rem;}
@@ -194,8 +186,8 @@
     <li><a href="#products"><span class="en">Products</span><span class="fr">Produits</span></a></li>
     <li><a href="#about"><span class="en">About</span><span class="fr">À propos</span></a></li>
     <li><a href="#explore"><span class="en">Explore</span><span class="fr">Explorer</span></a></li>
-    <li><a href="#team"><span class="en">Team</span><span class="fr">Équipe</span></a></li>
     <li><a href="#publications"><span class="en">Publications</span><span class="fr">Publications</span></a></li>
+    <li><a href="#team"><span class="en">Team</span><span class="fr">Équipe</span></a></li>
     <li><a href="#contact"><span class="en">Contact</span><span class="fr">Contact</span></a></li>
   </ul>
   <button class="lang-toggle" onclick="document.body.classList.toggle('lang-fr');this.textContent=document.body.classList.contains('lang-fr')?'EN':'FR'">FR</button>
@@ -285,6 +277,20 @@
 
 </section>
 
+<!-- PUBLICATIONS & COLLABORATIONS -->
+<section id="publications">
+  <div class="section-tag"><span class="en">Publications &amp; Collaborations</span><span class="fr">Publications et collaborations</span></div>
+  <h2 class="section-title en">Publications &amp; Collaborations</h2>
+  <h2 class="section-title fr">Publications et collaborations</h2>
+  <div class="divider"></div>
+  <p class="pub-intro en">Selected publications resulting from our research, carried out in collaboration with partner institutions and co-authors across Canada.</p>
+  <p class="pub-intro fr">Publications sélectionnées issues de nos recherches, réalisées en collaboration avec des institutions partenaires et des co-auteurs à travers le Canada.</p>
+
+  <div class="pub-list" id="publications-list">
+    <div class="pub-item"><div class="pub-year">—</div><div class="pub-title">Loading publications…</div></div>
+  </div>
+</section>
+
 <!-- TEAM -->
 <section id="team">
   <div class="section-tag"><span class="en">Team</span><span class="fr">Équipe</span></div>
@@ -346,26 +352,6 @@
         <div class="team-org">Laurentian Forestry Centre · CFS · NRCan</div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- PUBLICATIONS & COLLABORATIONS -->
-<section id="publications">
-  <div class="section-tag"><span class="en">Publications &amp; Collaborations</span><span class="fr">Publications et collaborations</span></div>
-  <h2 class="section-title en">Publications &amp; Collaborations</h2>
-  <h2 class="section-title fr">Publications et collaborations</h2>
-  <div class="divider"></div>
-
-  <h3 class="sub-heading en">Recent Publications</h3>
-  <h3 class="sub-heading fr">Publications récentes</h3>
-  <div class="pub-list" id="publications-list">
-    <div class="pub-item"><div class="pub-year">—</div><div class="pub-title">Loading publications…</div></div>
-  </div>
-
-  <h3 class="sub-heading en" style="margin-top:3rem;">Collaborations</h3>
-  <h3 class="sub-heading fr" style="margin-top:3rem;">Collaborations</h3>
-  <div class="collab-grid" id="collaborations-list">
-    <div class="collab-card">Loading…</div>
   </div>
 </section>
 
@@ -504,28 +490,9 @@
     }
   }
 
-  // Collaborations list: edit data/collaborations.json to add/change an entry.
-  async function loadCollaborations(){
-    const grid = document.getElementById('collaborations-list');
-    try{
-      const res = await fetch('data/collaborations.json', {cache:'no-store'});
-      const items = await res.json();
-      grid.innerHTML = items.map(c => `
-        <div class="collab-card">
-          <div class="collab-name">${c.name}</div>
-          <div class="collab-org"><span class="en">${c.org_en}</span><span class="fr">${c.org_fr}</span></div>
-          ${c.url ? `<a href="${c.url}" class="collab-link" target="_blank" rel="noopener">Visit →</a>` : ''}
-        </div>`).join('');
-    }catch(e){
-      grid.innerHTML = '<div class="collab-card">Could not load collaborations.</div>';
-      console.error('loadCollaborations failed:', e);
-    }
-  }
-
   loadNews();
   loadProducts();
   loadPublications();
-  loadCollaborations();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
