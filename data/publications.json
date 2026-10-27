@@ -1,13 +1,13 @@
 [
    {
-    "year": "2026",
-    "journal": "International Journal of Remote Sensing",
-    "title": "Mapping the extent and severity of tree mortality and defoliation caused by spruce budworm using Landsat time series",
-    "authors": "Zhou X., Guindon L., Perbet P., Reisi Gahrouei O., Côté J.-F., Waldron K., Kneeshaw D., Béland M.",
-    "url": "https://doi.org/10.1080/01431161.2026.2617734",
-    "doi_label": "DOI: 10.1080/01431161.2026.2617734",
-    "category": "disturbance"
-  },
+  "year": "2026",
+  "journal": "Scientific Data",
+  "title": "Canadian fractional landcover maps from 1985 onward",
+  "authors": "Guindon L., Correia D.L.P., Reisi Gahrouei O., Perbet P., Smiley B., Stralberg D., Collins L., Parisien M.-A., Wang X., Manka F., Boucher J.",
+  "url": "https://doi.org/10.1038/s41597-026-08522-3",
+  "doi_label": "DOI: 10.1038/s41597-026-08522-3",
+  "category": "inventory"
+},
   
   {
     "year": "2026",
