@@ -17,7 +17,6 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%231a3a2a'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Georgia,serif' font-size='34' font-weight='700' fill='%23c9a84c'%3EC%3C/text%3E%3C/svg%3E">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
   <style>
     :root {
       --green-deep:#1a3a2a; --green-mid:#2d5c3f; --green-light:#4a8c5c;
@@ -84,17 +83,6 @@
     table.projects-table td.muted{color:var(--text-light);}
     .ver-badge{font-family:'DM Mono',monospace;font-size:.7rem;padding:.15rem .5rem;border-radius:3px;background:rgba(74,140,92,.12);color:var(--green-mid);white-space:nowrap;}
 
-    /* EXPLORE DATA */
-    #explore{background:var(--cream);}
-    .map-panel{margin-top:1rem;margin-bottom:2.5rem;border-radius:8px;overflow:hidden;border:1px solid rgba(26,58,42,.1);background:var(--white);}
-    .map-panel-head{padding:1.2rem 1.5rem;border-bottom:1px solid rgba(26,58,42,.08);}
-    .map-panel-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--green-deep);margin-bottom:.2rem;}
-    .map-panel-desc{font-size:.82rem;color:var(--text-light);}
-    #canopy-map{height:480px;width:100%;background:var(--green-deep);}
-    .map-legend{display:flex;align-items:center;gap:.6rem;padding:.9rem 1.5rem;background:var(--white);border-top:1px solid rgba(26,58,42,.08);flex-wrap:wrap;}
-    .map-legend-label{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);}
-    .map-legend-bar{flex:1;min-width:160px;max-width:320px;height:10px;border-radius:5px;background:linear-gradient(90deg,#f5f0e8,#a8c9a0,#4a8c5c,#2d5c3f,#1a3a2a);}
-
     /* TEAM */
     #team{background:var(--cream);}
     .team-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;}
@@ -117,6 +105,12 @@
     .pub-authors{font-size:.72rem;color:var(--text-light);font-style:italic;margin-bottom:.25rem;}
     .pub-link{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--green-mid);text-decoration:none;letter-spacing:.05em;border-bottom:1px solid rgba(45,92,63,.3);}
     .pub-link:hover{color:var(--earth);}
+    .pub-tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.2rem;border-bottom:1px solid rgba(26,58,42,.12);}
+    .pub-tab{font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;color:var(--text-light);background:transparent;border:none;border-bottom:3px solid transparent;padding:.7rem 1rem;cursor:pointer;margin-bottom:-1px;transition:color .2s,border-color .2s;display:flex;align-items:center;gap:.45rem;}
+    .pub-tab:hover{color:var(--green-mid);}
+    .pub-tab.active{color:var(--green-deep);border-bottom-color:var(--earth-light);font-weight:600;}
+    .pub-count{font-family:'DM Mono',monospace;font-size:.65rem;background:rgba(74,140,92,.12);color:var(--green-mid);padding:.1rem .45rem;border-radius:10px;}
+    .pub-empty{font-size:.85rem;color:var(--text-light);font-style:italic;padding:1rem 0;}
 
     /* PARTNERS */
     #partners{background:var(--green-deep);}
@@ -185,7 +179,6 @@
   <ul class="nav-links">
     <li><a href="#products"><span class="en">Products</span><span class="fr">Produits</span></a></li>
     <li><a href="#about"><span class="en">About</span><span class="fr">À propos</span></a></li>
-    <li><a href="#explore"><span class="en">Explore</span><span class="fr">Explorer</span></a></li>
     <li><a href="#publications"><span class="en">Publications</span><span class="fr">Publications</span></a></li>
     <li><a href="#team"><span class="en">Team</span><span class="fr">Équipe</span></a></li>
     <li><a href="#contact"><span class="en">Contact</span><span class="fr">Contact</span></a></li>
@@ -253,30 +246,6 @@
   </div>
 </section>
 
-<!-- EXPLORE DATA -->
-<section id="explore">
-  <div class="section-tag"><span class="en">Explore Data</span><span class="fr">Explorer les données</span></div>
-  <h2 class="section-title en">Interactive Viewers</h2>
-  <h2 class="section-title fr">Visualisateurs interactifs</h2>
-  <div class="divider"></div>
-
-  <div class="map-panel">
-    <div class="map-panel-head">
-      <div class="map-panel-title en">National Canopy Closure — SCANFI</div>
-      <div class="map-panel-title fr">Fermeture du couvert national — SCANFI</div>
-      <div class="map-panel-desc en">30 m canopy closure (%) across Canada's forested landmass. Drag to pan, scroll to zoom.</div>
-      <div class="map-panel-desc fr">Fermeture du couvert (%) à 30 m à travers le territoire forestier canadien. Glissez pour déplacer, faites défiler pour zoomer.</div>
-    </div>
-    <div id="canopy-map"></div>
-    <div class="map-legend">
-      <span class="map-legend-label">0%</span>
-      <span class="map-legend-bar"></span>
-      <span class="map-legend-label">100% <span class="en">canopy closure</span><span class="fr">fermeture du couvert</span></span>
-    </div>
-  </div>
-
-</section>
-
 <!-- PUBLICATIONS & COLLABORATIONS -->
 <section id="publications">
   <div class="section-tag"><span class="en">Publications &amp; Collaborations</span><span class="fr">Publications et collaborations</span></div>
@@ -285,6 +254,12 @@
   <div class="divider"></div>
   <p class="pub-intro en">Selected publications resulting from our research, carried out in collaboration with partner institutions and co-authors across Canada.</p>
   <p class="pub-intro fr">Publications sélectionnées issues de nos recherches, réalisées en collaboration avec des institutions partenaires et des co-auteurs à travers le Canada.</p>
+
+  <div class="pub-tabs" role="tablist">
+    <button class="pub-tab active" data-cat="inventory" onclick="showPubTab('inventory')"><span class="en">Forest Inventory &amp; Land Cover</span><span class="fr">Inventaire forestier et couverture terrestre</span><span class="pub-count" id="count-inventory">0</span></button>
+    <button class="pub-tab" data-cat="disturbance" onclick="showPubTab('disturbance')"><span class="en">Forest Disturbances</span><span class="fr">Perturbations forestières</span><span class="pub-count" id="count-disturbance">0</span></button>
+    <button class="pub-tab" data-cat="other" onclick="showPubTab('other')"><span class="en">Other</span><span class="fr">Autres</span><span class="pub-count" id="count-other">0</span></button>
+  </div>
 
   <div class="pub-list" id="publications-list">
     <div class="pub-item"><div class="pub-year">—</div><div class="pub-title">Loading publications…</div></div>
@@ -469,12 +444,17 @@
   }
 
   // Publications list: edit data/publications.json to add/change a paper.
-  async function loadPublications(){
+  // Each paper needs a "category": "inventory", "disturbance" or "other"
+  // (papers without a category go under "other").
+  let allPubs = [];
+  const PUB_CATS = ['inventory', 'disturbance', 'other'];
+  function pubCat(p){ return PUB_CATS.includes(p.category) ? p.category : 'other'; }
+
+  function showPubTab(cat){
+    document.querySelectorAll('.pub-tab').forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
     const list = document.getElementById('publications-list');
-    try{
-      const res = await fetch('data/publications.json', {cache:'no-store'});
-      const items = await res.json();
-      list.innerHTML = items.map(p => `
+    const items = allPubs.filter(p => pubCat(p) === cat);
+    list.innerHTML = items.length ? items.map(p => `
         <div class="pub-item">
           <div class="pub-year">${p.year}</div>
           <div>
@@ -483,7 +463,19 @@
             <div class="pub-authors">${p.authors}</div>
             <a href="${p.url}" class="pub-link" target="_blank" rel="noopener">${p.doi_label} →</a>
           </div>
-        </div>`).join('');
+        </div>`).join('')
+      : '<div class="pub-empty"><span class="en">No publications in this category yet.</span><span class="fr">Aucune publication dans cette catégorie pour le moment.</span></div>';
+  }
+
+  async function loadPublications(){
+    const list = document.getElementById('publications-list');
+    try{
+      const res = await fetch('data/publications.json', {cache:'no-store'});
+      allPubs = await res.json();
+      PUB_CATS.forEach(c => {
+        document.getElementById('count-' + c).textContent = allPubs.filter(p => pubCat(p) === c).length;
+      });
+      showPubTab('inventory');
     }catch(e){
       list.innerHTML = '<div class="pub-item"><div class="pub-title">Could not load publications.</div></div>';
       console.error('loadPublications failed:', e);
@@ -493,18 +485,6 @@
   loadNews();
   loadProducts();
   loadPublications();
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script>
-  // Canopy closure map
-  const canopyBounds = [[35.8597, -153.1788], [75.1553, -29.4064]]; // [south,west],[north,east]
-  const canopyMap = L.map('canopy-map', {minZoom: 2, maxZoom: 8}).fitBounds(canopyBounds);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
-    maxZoom: 20
-  }).addTo(canopyMap);
-  L.imageOverlay('assets/canopy_closure_overlay.png', canopyBounds, {opacity: 0.95}).addTo(canopyMap);
 </script>
 
 </body>
