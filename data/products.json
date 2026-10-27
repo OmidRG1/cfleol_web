@@ -3,13 +3,13 @@
     "name": "SCANFI",
     "summary_en": "Canada-wide 30 m maps of forest land cover, canopy height, crown closure, aboveground biomass, and tree species composition.",
     "summary_fr": "Cartes nationales à 30 m de l'occupation du sol forestier, hauteur du couvert, fermeture du couvert, biomasse aérienne et composition en essences, à l'échelle du Canada.",
-    "publication_url": "https://doi.org/10.1139/cjfr-2023-0118",
+    "publication_url": "https://www.nature.com/articles/s41597-026-08522-3",
     "gee_demo_url": "https://gcpm041u-lemur.projects.earthengine.app/view/fractionallandcover",
     "github_url": "",
-    "data_url": "https://open.canada.ca/data/en/dataset/07653869-f303-46c2-a04e-9ab479b73cbf",
-    "current_version": "v2",
-    "next_version_eta_en": "v3 — TBD",
-    "next_version_eta_fr": "v3 — à déterminer"
+    "data_url": "https://open.canada.ca/data/en/dataset/18e6a919-53fd-41ce-b4e2-44a9707c52dc",
+    "current_version": "v3",
+    "next_version_eta_en": "Expected 2027",
+    "next_version_eta_fr": "Prévue en 2027"
   },
   {
     "name": "CanLaD",
@@ -20,8 +20,8 @@
     "github_url": "https://github.com/NRCan/CanLaD",
     "data_url": "https://open.canada.ca/data/en/dataset/902801fd-4d9d-4df4-9e95-319e429545cc",
     "current_version": "1985–2025",
-    "next_version_eta_en": "TBD",
-    "next_version_eta_fr": "à déterminer"
+    "next_version_eta_en": "Expected 2027",
+    "next_version_eta_fr": "Prévue en 2027"
   },
   {
     "name": "CanLaBS",
@@ -32,8 +32,8 @@
     "github_url": "",
     "data_url": "https://open.canada.ca/data/en/dataset/2af751e7-79f9-4da8-9b45-14688818dca3",
     "current_version": "v2",
-    "next_version_eta_en": "v3 — TBD",
-    "next_version_eta_fr": "v3 — à déterminer"
+    "next_version_eta_en": "",
+    "next_version_eta_fr": ""
   },
   {
     "name": "Pre-CanLaD",
@@ -46,5 +46,17 @@
     "current_version": "v2",
     "next_version_eta_en": "TBD",
     "next_version_eta_fr": "à déterminer"
+  },
+  {
+   "name": "Windthrow-Sentinel2",
+"summary_en": "Sentinel-2-based (10 m) resolution mapping of forest windthrow across Canada, from 2019 to 2025.",
+"summary_fr": "Cartographie des chablis en forêt à (10 m) de résolution, basée sur Sentinel-2, au Canada , de 2019 à 2025.",
+"publication_url": "https://www.sciencedirect.com/science/article/pii/S0034425726000404",
+"gee_demo_url": "",
+"github_url": "",
+"data_url": "",
+"current_version": "v0",
+"next_version_eta_en": "",
+"next_version_eta_fr": ""
   }
 ]
